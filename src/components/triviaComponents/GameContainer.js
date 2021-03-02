@@ -6,14 +6,13 @@ import RadioGroup from "@material-ui/core/RadioGroup"
 import Radio from "@material-ui/core/Radio"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 
-// handle scoring inside the game component
+// scoring works except for the first question
+// after first question of the round it works...
 
 const GameContainer = (props) => {
   const [answer, setAnswer] = useState("")
-  const [answeredCorrectly, setAnsweredCorrectly] = useState(false)
-
+  const [correct, setCorrect] = useState(false)
   const question = props.question
-  const currentQuestionIndex = props.question.index
 
   const handleAnswer = (e) => {
     const { value } = e.target
@@ -21,25 +20,28 @@ const GameContainer = (props) => {
   }
 
   useEffect(() => {
-    if (answeredCorrectly) {
-      props.setScore(props.score + 1)
-    }
-    props.socket.emit("userScore", {
-      score: props.score,
-      user: props.user,
-    })
-  }, [currentQuestionIndex])
-
-  useEffect(() => {
     if (answer === question.correct_answer) {
-      console.log("correct")
-      setAnsweredCorrectly(true)
+      setCorrect(true)
     } else {
-      setAnsweredCorrectly(false)
-      console.log(`incorrect it was ${question.correct_answer}`)
+      setCorrect(false)
     }
   }, [answer])
 
+  useEffect(() => {
+    if (correct) {
+      console.log("correct!")
+      props.socket.emit("userScore", {
+        score: props.score,
+        user: props.user,
+        room: props.room,
+      })
+    }
+    return () => {
+      setAnswer("")
+    }
+  }, [question])
+
+  console.log(question.correct_answer)
   return (
     <div className="">
       <FormControl component="fieldset">

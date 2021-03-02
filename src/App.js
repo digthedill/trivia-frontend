@@ -13,7 +13,6 @@ import "./App.css"
 function App({ socket }) {
   const [user, setUser] = useState("")
   const [room, setRoom] = useState("")
-  const [score, setScore] = useState(0)
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [question, setQuestion] = useState("")
@@ -75,9 +74,8 @@ function App({ socket }) {
             <GameContainer
               question={question}
               socket={socket}
+              room={room}
               user={user}
-              score={score}
-              setScore={setScore}
             />
             {endOfGame ? <h1>Game Over</h1> : null}
           </Grid>
