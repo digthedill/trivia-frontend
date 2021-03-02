@@ -1,10 +1,38 @@
-.game-content {
+/* .game-content {
   padding: 1rem 0;
   margin: 3rem 0.5rem;
-}
+} */
 
 .question-text {
   color: black !important;
   line-height: 1.1 !important;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.form-container {
+  text-align: center;
+}
+.sign-in-form {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  padding: 2rem;
+  margin: 0.7rem;
+}
+.game-container {
+  margin-top: 1.5rem !important;
+  padding: 2rem;
+}
+
+.start-btn {
+  font-size: 1.3rem !important;
+  /* margin: 1.5rem 0 !important; */
+}
+
+.submit-btn {
+  margin-top: 1.2rem !important;
+}
+
+.question-text {
+  color: #111 !important;
 }

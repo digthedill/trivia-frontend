@@ -5,7 +5,6 @@ import FormLabel from "@material-ui/core/FormLabel"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import Radio from "@material-ui/core/Radio"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Divider from "@material-ui/core/Divider"
 
 const GameContainer = (props) => {
   const [answer, setAnswer] = useState("")
@@ -16,6 +15,14 @@ const GameContainer = (props) => {
     const { value } = e.target
     setAnswer(value)
   }
+
+  const renderStyles = props.GameContainer
+    ? {
+        background: "#dbffff",
+      }
+    : {
+        background: "white",
+      }
 
   useEffect(() => {
     if (answer === question.correct_answer) {
@@ -41,16 +48,15 @@ const GameContainer = (props) => {
   }, [question])
 
   return (
-    <div className="">
+    <div className="game-container" style={renderStyles}>
       {parseInt(question.index) <= 9 ? <h4>{question.category}</h4> : null}
       <FormControl component="fieldset">
         <FormLabel component="legend" className="question-text">
-          <strong>
+          <p>
             {parseInt(question.index) <= 9 ? `${question.index + 1} .` : null}
-          </strong>{" "}
-          {typeof question === "object" ? he.decode(question.question) : null}
+            {he.decode(question.question)}
+          </p>
         </FormLabel>
-        <Divider />
         <RadioGroup
           aria-label="answer"
           name="answer"

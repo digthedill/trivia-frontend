@@ -2,7 +2,6 @@ import React, { useState } from "react"
 
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
-
 const LoginUser = (props) => {
   const [currentUser, setCurrentUser] = useState("")
   const [currentRoom, setCurrentRoom] = useState("")
@@ -29,11 +28,11 @@ const LoginUser = (props) => {
     setCurrentRoom(value)
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="form-container">
+      <h2>Let's Play Trivia</h2>
+      <form onSubmit={handleSubmit} className="sign-in-form">
         <TextField
           autoComplete={false}
-          placeholder="Conan the Barbarian"
           id="standard-basic"
           label="Name"
           name="name"
@@ -43,14 +42,15 @@ const LoginUser = (props) => {
         />
         <TextField
           autoComplete={false}
-          placeholder="Tatooine"
           label="Room"
           name="room"
           value={currentRoom}
           onChange={handleRoom}
           required
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" variant="outlined" className="submit-btn">
+          Join
+        </Button>
       </form>
     </div>
   )

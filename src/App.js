@@ -8,6 +8,7 @@ import Header from "./components/Header"
 import LoginUser from "./components/LoginInUser"
 import GameContainer from "./components/GameContainer"
 import DisplayUsers from "./components/DisplayUsers"
+import DisplayGameOver from "./components/DisplayGameOver"
 
 import "./App.css"
 
@@ -53,45 +54,51 @@ function App({ socket }) {
   return (
     <>
       <Container>
-        <Header />
+        <Header user={user} />
         <DisplayUsers usersInGame={usersInGame} room={room} />
+        <Grid container justify="center">
+          <div className="game-content">
+            {
+              endOfGame ? (
+                <DisplayGameOver />
+              ) : null /*/create a component for this /*/
+            }
 
-        <div className="game-content">
-          {!loggedIn ? (
-            <LoginUser
-              user={user}
-              setUser={setUser}
-              room={room}
-              setRoom={setRoom}
-              setLoggedIn={setLoggedIn}
-              socket={socket}
-            />
-          ) : null}
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              {(loggedIn && !gameStarted) || endOfGame ? (
+            {!loggedIn ? (
+              <LoginUser
+                user={user}
+                setUser={setUser}
+                room={room}
+                setRoom={setRoom}
+                setLoggedIn={setLoggedIn}
+                socket={socket}
+              />
+            ) : null}
+
+            {(loggedIn && !gameStarted) || endOfGame ? (
+              <div className="center-container">
                 <Button
                   variant="contained"
+                  size="large"
                   color="primary"
                   onClick={handleStart}
+                  className="start-btn"
                 >
                   Start Game
                 </Button>
-              ) : null}
-
+              </div>
+            ) : null}
+            {gameStarted ? (
               <GameContainer
                 question={question}
                 socket={socket}
                 room={room}
                 user={user}
+                gameStarted={gameStarted}
               />
-              {endOfGame ? <h1>Game Over</h1> : null}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <div></div>
-            </Grid>
-          </Grid>
-        </div>
+            ) : null}
+          </div>
+        </Grid>
       </Container>
     </>
   )
