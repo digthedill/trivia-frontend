@@ -5,9 +5,7 @@ import FormLabel from "@material-ui/core/FormLabel"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import Radio from "@material-ui/core/Radio"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-
-// scoring works except for the first question
-// after first question of the round it works...
+import Divider from "@material-ui/core/Divider"
 
 const GameContainer = (props) => {
   const [answer, setAnswer] = useState("")
@@ -38,16 +36,21 @@ const GameContainer = (props) => {
     }
     return () => {
       setAnswer("")
+      setCorrect(false)
     }
   }, [question])
 
-  console.log(question.correct_answer)
   return (
     <div className="">
+      {parseInt(question.index) <= 9 ? <h4>{question.category}</h4> : null}
       <FormControl component="fieldset">
-        <FormLabel component="legend">
+        <FormLabel component="legend" className="question-text">
+          <strong>
+            {parseInt(question.index) <= 9 ? `${question.index + 1} .` : null}
+          </strong>{" "}
           {typeof question === "object" ? he.decode(question.question) : null}
         </FormLabel>
+        <Divider />
         <RadioGroup
           aria-label="answer"
           name="answer"
@@ -68,7 +71,6 @@ const GameContainer = (props) => {
             : null}
         </RadioGroup>
       </FormControl>
-      {/*typeof question === "object" ? <p>{score}/10</p> : null */}
     </div>
   )
 }

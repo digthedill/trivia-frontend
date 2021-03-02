@@ -6,7 +6,8 @@ import Grid from "@material-ui/core/Grid"
 
 import Header from "./components/Header"
 import LoginUser from "./components/LoginInUser"
-import GameContainer from "./components/triviaComponents/GameContainer"
+import GameContainer from "./components/GameContainer"
+import DisplayUsers from "./components/DisplayUsers"
 
 import "./App.css"
 
@@ -50,52 +51,49 @@ function App({ socket }) {
   }, [socket])
 
   return (
-    <Container>
-      <Header />
-      <div className="game-content">
-        {!loggedIn ? (
-          <LoginUser
-            user={user}
-            setUser={setUser}
-            room={room}
-            setRoom={setRoom}
-            setLoggedIn={setLoggedIn}
-            socket={socket}
-          />
-        ) : null}
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            {(loggedIn && !gameStarted) || endOfGame ? (
-              <Button variant="contained" color="primary" onClick={handleStart}>
-                Start Game
-              </Button>
-            ) : null}
+    <>
+      <Container>
+        <Header />
+        <DisplayUsers usersInGame={usersInGame} room={room} />
 
-            <GameContainer
-              question={question}
-              socket={socket}
-              room={room}
+        <div className="game-content">
+          {!loggedIn ? (
+            <LoginUser
               user={user}
+              setUser={setUser}
+              room={room}
+              setRoom={setRoom}
+              setLoggedIn={setLoggedIn}
+              socket={socket}
             />
-            {endOfGame ? <h1>Game Over</h1> : null}
+          ) : null}
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              {(loggedIn && !gameStarted) || endOfGame ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleStart}
+                >
+                  Start Game
+                </Button>
+              ) : null}
+
+              <GameContainer
+                question={question}
+                socket={socket}
+                room={room}
+                user={user}
+              />
+              {endOfGame ? <h1>Game Over</h1> : null}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div></div>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <div>
-              {usersInGame.length ? <h1>Users in {room}</h1> : null}
-              {usersInGame.length
-                ? usersInGame.map((user, i) => {
-                    return (
-                      <p key={i}>
-                        {user.username} {user.score}
-                      </p>
-                    )
-                  })
-                : null}
-            </div>
-          </Grid>
-        </Grid>
-      </div>
-    </Container>
+        </div>
+      </Container>
+    </>
   )
 }
 

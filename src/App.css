@@ -2,3 +2,9 @@
   padding: 1rem 0;
   margin: 3rem 0.5rem;
 }
+
+.question-text {
+  color: black !important;
+  line-height: 1.1 !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
