@@ -16,6 +16,12 @@ const GameContainer = (props) => {
     setAnswer(value)
   }
 
+  const decodeHTMLEntities = (text) => {
+    var textArea = document.createElement("textarea")
+    textArea.innerHTML = text
+    return textArea.value
+  }
+
   const renderStyles = props.GameContainer
     ? {
         background: "#dbffff",
@@ -34,7 +40,6 @@ const GameContainer = (props) => {
 
   useEffect(() => {
     if (correct) {
-      console.log("correct!")
       props.socket.emit("userScore", {
         score: props.score,
         user: props.user,
@@ -52,10 +57,12 @@ const GameContainer = (props) => {
       {parseInt(question.index) <= 9 ? <h4>{question.category}</h4> : null}
       <FormControl component="fieldset">
         <FormLabel component="legend" className="question-text">
-          <p>
-            {parseInt(question.index) <= 9 ? `${question.index + 1} .` : null}
-            {he.decode(question.question)}
-          </p>
+          <div style={{ display: "flex" }}>
+            <span style={{ marginRight: "0.4rem" }}>
+              {parseInt(question.index) <= 9 ? `${question.index + 1}` : null}
+            </span>
+            <div dangerouslySetInnerHTML={{ __html: question.question }}></div>
+          </div>
         </FormLabel>
         <RadioGroup
           aria-label="answer"
@@ -69,7 +76,7 @@ const GameContainer = (props) => {
                   <FormControlLabel
                     value={choice}
                     control={<Radio />}
-                    label={he.decode(choice)}
+                    label={decodeHTMLEntities(choice)}
                     key={i}
                   />
                 )

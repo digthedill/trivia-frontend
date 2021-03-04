@@ -1,5 +1,4 @@
 import React from "react"
-import Drawer from "@material-ui/core/Drawer"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
@@ -9,9 +8,13 @@ import { Container } from "@material-ui/core"
 
 const DisplayUsers = ({ usersInGame, room }) => {
   return (
-    <Drawer variant="permanent" anchor="bottom">
+    <div style={{ textAlign: "center" }}>
       <Container>
-        {usersInGame.length ? <h3>Users in {room}</h3> : null}
+        {usersInGame.length ? (
+          <h3>
+            {usersInGame.length} users in {room}. Round: {usersInGame[0].round}
+          </h3>
+        ) : null}
         <List>
           {usersInGame.length
             ? usersInGame.map((user, i) => {
@@ -29,7 +32,7 @@ const DisplayUsers = ({ usersInGame, room }) => {
             : null}
         </List>
       </Container>
-    </Drawer>
+    </div>
   )
 }
 

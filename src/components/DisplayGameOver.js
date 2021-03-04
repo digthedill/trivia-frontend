@@ -3,10 +3,10 @@ import Animated from "../growth 2.svg"
 // have a on tally scores
 
 // display the winner
-const DisplayGameOver = () => {
+const DisplayGameOver = ({ roundWinner }) => {
   return (
     <div>
-      <h1>Game Over, Lass</h1>
+      <h1>{roundWinner} wins!</h1>
 
       <object type="image/svg+xml" data={Animated} style={{ width: "420px" }}>
         svg animation

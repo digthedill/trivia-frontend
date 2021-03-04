@@ -2,7 +2,9 @@
   padding: 1rem 0;
   margin: 3rem 0.5rem;
 } */
-
+.content {
+  text-align: center;
+}
 .question-text {
   color: black !important;
   line-height: 1.1 !important;
@@ -20,13 +22,13 @@
   margin: 0.7rem;
 }
 .game-container {
-  margin-top: 1.5rem !important;
+  margin: 1.5rem 0 8rem 0 !important;
   padding: 2rem;
 }
 
 .start-btn {
   font-size: 1.3rem !important;
-  /* margin: 1.5rem 0 !important; */
+  margin: 4.5rem 0 !important;
 }
 
 .submit-btn {
@@ -35,4 +37,9 @@
 
 .question-text {
   color: #111 !important;
+}
+
+.users {
+  position: fixed;
+  bottom: 0;
 }

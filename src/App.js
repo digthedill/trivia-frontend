@@ -15,6 +15,7 @@ import "./App.css"
 function App({ socket }) {
   const [user, setUser] = useState("")
   const [room, setRoom] = useState("")
+  const [roundWinner, setRoundWinner] = useState("")
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [question, setQuestion] = useState("")
@@ -27,8 +28,15 @@ function App({ socket }) {
     // reset scores
     setGameStarted(true)
     setEndOfGame(false)
+    setRoundWinner("")
     socket.emit("start")
   }
+
+  // solve show answer before next question
+
+  // setTimeout 2 second delay on timedQuestion
+  //  show the answer before the next question
+  //  except first index
 
   useEffect(() => {
     socket.on("gameStartedInRoom", () => {
@@ -48,21 +56,22 @@ function App({ socket }) {
 
     socket.on("endOfGame", () => {
       setEndOfGame(true)
+      setGameStarted(false)
+    })
+
+    socket.on("roundWinner", (winner) => {
+      console.log("got it!")
+      setRoundWinner(winner)
     })
   }, [socket])
 
   return (
-    <>
+    <div className="content">
       <Container>
         <Header user={user} />
-        <DisplayUsers usersInGame={usersInGame} room={room} />
         <Grid container justify="center">
           <div className="game-content">
-            {
-              endOfGame ? (
-                <DisplayGameOver />
-              ) : null /*/create a component for this /*/
-            }
+            {endOfGame ? <DisplayGameOver roundWinner={roundWinner} /> : null}
 
             {!loggedIn ? (
               <LoginUser
@@ -100,7 +109,8 @@ function App({ socket }) {
           </div>
         </Grid>
       </Container>
-    </>
+      <DisplayUsers usersInGame={usersInGame} room={room} />
+    </div>
   )
 }
 
