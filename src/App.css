@@ -28,7 +28,6 @@
 
 .start-btn {
   font-size: 1.3rem !important;
-  margin: 4.5rem 0 !important;
 }
 
 .submit-btn {
@@ -42,4 +41,16 @@
 .users {
   position: fixed;
   bottom: 0;
+}
+
+.user-select-container {
+  margin-top: 7rem !important;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 4.5rem 0 !important;
 }

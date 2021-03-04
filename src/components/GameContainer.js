@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import he from "he"
 import FormControl from "@material-ui/core/FormControl"
 import FormLabel from "@material-ui/core/FormLabel"
 import RadioGroup from "@material-ui/core/RadioGroup"
@@ -61,7 +60,10 @@ const GameContainer = (props) => {
             <span style={{ marginRight: "0.4rem" }}>
               {parseInt(question.index) <= 9 ? `${question.index + 1}` : null}
             </span>
-            <div dangerouslySetInnerHTML={{ __html: question.question }}></div>
+            <div
+              dangerouslySetInnerHTML={{ __html: question.question }}
+              style={{ textAlign: "left" }}
+            ></div>
           </div>
         </FormLabel>
         <RadioGroup

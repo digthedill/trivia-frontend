@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import Container from "@material-ui/core/Container"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+import Alert from "@material-ui/lab/Alert"
 
 import Header from "./components/Header"
 import LoginUser from "./components/LoginInUser"
@@ -10,12 +11,18 @@ import GameContainer from "./components/GameContainer"
 import DisplayUsers from "./components/DisplayUsers"
 import DisplayGameOver from "./components/DisplayGameOver"
 
+import WaitingSvg from "./svgs/meditation.svg"
+import StartSvg from "./svgs/Focus on positive activities.svg"
+
 import "./App.css"
 
 function App({ socket }) {
   const [user, setUser] = useState("")
   const [room, setRoom] = useState("")
-  const [roundWinner, setRoundWinner] = useState("")
+  const [admin, setAdmin] = useState(false)
+
+  const [error, setError] = useState(null)
+  const [userObject, setUserObject] = useState({})
 
   const [loggedIn, setLoggedIn] = useState(false)
   const [question, setQuestion] = useState("")
@@ -28,7 +35,6 @@ function App({ socket }) {
     // reset scores
     setGameStarted(true)
     setEndOfGame(false)
-    setRoundWinner("")
     socket.emit("start")
   }
 
@@ -39,6 +45,17 @@ function App({ socket }) {
   //  except first index
 
   useEffect(() => {
+    socket.on("error", () => {
+      setUser("")
+      setRoom("")
+      setLoggedIn(false)
+      setError("username already claimed!")
+    })
+
+    socket.on("userInfo", (user) => {
+      setUserObject(user)
+    })
+
     socket.on("gameStartedInRoom", () => {
       setEndOfGame(false)
       setGameStarted(true)
@@ -57,11 +74,8 @@ function App({ socket }) {
     socket.on("endOfGame", () => {
       setEndOfGame(true)
       setGameStarted(false)
-    })
-
-    socket.on("roundWinner", (winner) => {
-      console.log("got it!")
-      setRoundWinner(winner)
+      console.log("on the admin side, it is game over")
+      // this code is not getting passed to admins????????????????????????????????????
     })
   }, [socket])
 
@@ -69,9 +83,14 @@ function App({ socket }) {
     <div className="content">
       <Container>
         <Header user={user} />
-        <Grid container justify="center">
+        <Grid>
+          {error ? (
+            <Alert severity="error" style={{ width: "100%" }}>
+              {error}
+            </Alert>
+          ) : null}
           <div className="game-content">
-            {endOfGame ? <DisplayGameOver roundWinner={roundWinner} /> : null}
+            {endOfGame ? <DisplayGameOver socket={socket} /> : null}
 
             {!loggedIn ? (
               <LoginUser
@@ -81,11 +100,20 @@ function App({ socket }) {
                 setRoom={setRoom}
                 setLoggedIn={setLoggedIn}
                 socket={socket}
+                setError={setError}
+                setAdmin={setAdmin}
               />
             ) : null}
 
-            {(loggedIn && !gameStarted) || endOfGame ? (
+            {(loggedIn && !gameStarted && admin) || (endOfGame && admin) ? (
               <div className="center-container">
+                <object
+                  type="image/svg+xml"
+                  data={StartSvg}
+                  style={{ width: "420px" }}
+                >
+                  svg
+                </object>
                 <Button
                   variant="contained"
                   size="large"
@@ -95,6 +123,17 @@ function App({ socket }) {
                 >
                   Start Game
                 </Button>
+              </div>
+            ) : loggedIn && !gameStarted && !admin && userObject.round < 2 ? (
+              <div className="center-container">
+                <h3>waiting on admin to start game</h3>
+                <object
+                  type="image/svg+xml"
+                  data={WaitingSvg}
+                  style={{ width: "420px" }}
+                >
+                  svg
+                </object>
               </div>
             ) : null}
             {gameStarted ? (
