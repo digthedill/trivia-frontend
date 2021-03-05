@@ -61,9 +61,9 @@ function App({ socket }) {
       setGameStarted(true)
     })
     socket.on("timedQuestion", (data) => {
-      // console.log(data)
       setQuestion(data)
     })
+
     socket.on("message", (data) => {
       console.log(data)
     })
@@ -74,8 +74,6 @@ function App({ socket }) {
     socket.on("endOfGame", () => {
       setEndOfGame(true)
       setGameStarted(false)
-      console.log("on the admin side, it is game over")
-      // this code is not getting passed to admins????????????????????????????????????
     })
   }, [socket])
 
@@ -126,7 +124,6 @@ function App({ socket }) {
               </div>
             ) : loggedIn && !gameStarted && !admin && userObject.round < 2 ? (
               <div className="center-container">
-                <h3>waiting on admin to start game</h3>
                 <object
                   type="image/svg+xml"
                   data={WaitingSvg}
@@ -134,6 +131,7 @@ function App({ socket }) {
                 >
                   svg
                 </object>
+                <h3>waiting on admin to start game</h3>
               </div>
             ) : null}
             {gameStarted ? (

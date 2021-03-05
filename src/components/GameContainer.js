@@ -7,6 +7,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel"
 
 const GameContainer = (props) => {
   const [answer, setAnswer] = useState("")
+  const [showingAnswer, setShowingAnswer] = useState(false)
+  const [showRoomAnswer, setShowRoomAnswer] = useState("")
   const [correct, setCorrect] = useState(false)
   const question = props.question
 
@@ -38,6 +40,7 @@ const GameContainer = (props) => {
   }, [answer])
 
   useEffect(() => {
+    setShowingAnswer(false)
     if (correct) {
       props.socket.emit("userScore", {
         score: props.score,
@@ -50,6 +53,16 @@ const GameContainer = (props) => {
       setCorrect(false)
     }
   }, [question])
+
+  useEffect(() => {
+    props.socket.on("showAnswer", (answer) => {
+      setShowingAnswer(true)
+      setShowRoomAnswer(decodeHTMLEntities(answer))
+    })
+    props.socket.on("clearAnswer", () => {
+      setShowRoomAnswer("")
+    })
+  }, [props.socket])
 
   return (
     <div className="game-container" style={renderStyles}>
@@ -80,12 +93,16 @@ const GameContainer = (props) => {
                     control={<Radio />}
                     label={decodeHTMLEntities(choice)}
                     key={i}
+                    disabled={showingAnswer}
                   />
                 )
               })
             : null}
         </RadioGroup>
       </FormControl>
+      {showingAnswer ? (
+        <h3 style={{ color: "teal" }}>{showRoomAnswer}</h3>
+      ) : null}
     </div>
   )
 }
