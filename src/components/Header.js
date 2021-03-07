@@ -1,14 +1,30 @@
 import React from "react"
 import { AppBar } from "@material-ui/core"
 import Grid from "@material-ui/core/Grid"
+import SocialDistancedCats from "../svgs/Social Distancing-01.svg"
+
 const Header = ({ user }) => {
   return (
-    <AppBar position="static" className="appBar" style={{ padding: "10px" }}>
-      <Grid container justify="space-between" alignItems="center">
-        <Grid item>
+    <AppBar
+      position="static"
+      className="appBar"
+      style={{ padding: "0 10px 0 10px" }}
+    >
+      <Grid container justify="center" alignItems="center">
+        <Grid item xs>
+          <object
+            type="image/svg+xml"
+            data={SocialDistancedCats}
+            style={{ width: "120px" }}
+          >
+            svg
+          </object>
+        </Grid>
+        <Grid item xs>
           <h1>Social Distanced Trivia!</h1>
         </Grid>
-        <Grid item justify="flex-end">
+
+        <Grid item xs>
           <p>{user ? `welcome ${user}` : null}</p>
         </Grid>
       </Grid>

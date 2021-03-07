@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import Fade from "@material-ui/core/Fade"
 
 const DisplayGameOver = ({ socket }) => {
   const [roundWinner, setRoundWinner] = useState([])
@@ -23,9 +24,11 @@ const DisplayGameOver = ({ socket }) => {
   }
 
   return (
-    <div>
-      <h1>{renderWinners(roundWinner)} wins!</h1>
-    </div>
+    <Fade in={true} timeout={1000}>
+      <div>
+        <h1>{renderWinners(roundWinner)} wins!</h1>
+      </div>
+    </Fade>
   )
 }
 

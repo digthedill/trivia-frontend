@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react"
+import "@fontsource/roboto"
 
 import Container from "@material-ui/core/Container"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Alert from "@material-ui/lab/Alert"
+import { ThemeProvider } from "@material-ui/styles"
+import Fade from "@material-ui/core/Fade"
 
 import Header from "./components/Header"
 import LoginUser from "./components/LoginInUser"
 import GameContainer from "./components/GameContainer"
 import DisplayUsers from "./components/DisplayUsers"
 import DisplayGameOver from "./components/DisplayGameOver"
+import CustomTheme from "./theme/CustomTheme"
 
 import WaitingSvg from "./svgs/meditation.svg"
 import StartSvg from "./svgs/Focus on positive activities.svg"
@@ -37,12 +41,6 @@ function App({ socket }) {
     setEndOfGame(false)
     socket.emit("start")
   }
-
-  // solve show answer before next question
-
-  // setTimeout 2 second delay on timedQuestion
-  //  show the answer before the next question
-  //  except first index
 
   useEffect(() => {
     socket.on("error", () => {
@@ -78,76 +76,88 @@ function App({ socket }) {
   }, [socket])
 
   return (
-    <div className="content">
-      <Container>
-        <Header user={user} />
-        <Grid>
-          {error ? (
-            <Alert severity="error" style={{ width: "100%" }}>
-              {error}
-            </Alert>
-          ) : null}
-          <div className="game-content">
-            {endOfGame ? <DisplayGameOver socket={socket} /> : null}
+    <ThemeProvider theme={CustomTheme}>
+      <Fade in={true} timeout={1000}>
+        <div className="content">
+          <Header user={user} />
 
-            {!loggedIn ? (
-              <LoginUser
-                user={user}
-                setUser={setUser}
-                room={room}
-                setRoom={setRoom}
-                setLoggedIn={setLoggedIn}
-                socket={socket}
-                setError={setError}
-                setAdmin={setAdmin}
-              />
-            ) : null}
+          <Container>
+            <Grid>
+              {error ? (
+                <Alert severity="error" style={{ width: "100%" }}>
+                  {error}
+                </Alert>
+              ) : null}
+              <div className="game-content">
+                {endOfGame ? <DisplayGameOver socket={socket} /> : null}
 
-            {(loggedIn && !gameStarted && admin) || (endOfGame && admin) ? (
-              <div className="center-container">
-                <object
-                  type="image/svg+xml"
-                  data={StartSvg}
-                  style={{ width: "420px" }}
-                >
-                  svg
-                </object>
-                <Button
-                  variant="contained"
-                  size="large"
-                  color="primary"
-                  onClick={handleStart}
-                  className="start-btn"
-                >
-                  Start Game
-                </Button>
+                {!loggedIn ? (
+                  <LoginUser
+                    user={user}
+                    setUser={setUser}
+                    room={room}
+                    setRoom={setRoom}
+                    setLoggedIn={setLoggedIn}
+                    socket={socket}
+                    setError={setError}
+                    setAdmin={setAdmin}
+                  />
+                ) : null}
+
+                {(loggedIn && !gameStarted && admin) || (endOfGame && admin) ? (
+                  <Fade in={true} timeout={1000}>
+                    <div className="center-container">
+                      <object
+                        type="image/svg+xml"
+                        data={StartSvg}
+                        style={{ width: "420px" }}
+                      >
+                        svg
+                      </object>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        color="primary"
+                        onClick={handleStart}
+                        className="start-btn"
+                      >
+                        Start Game
+                      </Button>
+                    </div>
+                  </Fade>
+                ) : loggedIn &&
+                  !gameStarted &&
+                  !admin &&
+                  userObject.round < 2 ? (
+                  <Fade in={true} timeout={1000}>
+                    <div className="center-container">
+                      <object
+                        type="image/svg+xml"
+                        data={WaitingSvg}
+                        style={{ width: "420px" }}
+                      >
+                        svg
+                      </object>
+                      <h3>waiting on admin to start game</h3>
+                    </div>
+                  </Fade>
+                ) : null}
+                {gameStarted ? (
+                  <GameContainer
+                    question={question}
+                    socket={socket}
+                    room={room}
+                    user={user}
+                    gameStarted={gameStarted}
+                  />
+                ) : null}
               </div>
-            ) : loggedIn && !gameStarted && !admin && userObject.round < 2 ? (
-              <div className="center-container">
-                <object
-                  type="image/svg+xml"
-                  data={WaitingSvg}
-                  style={{ width: "420px" }}
-                >
-                  svg
-                </object>
-                <h3>waiting on admin to start game</h3>
-              </div>
-            ) : null}
-            {gameStarted ? (
-              <GameContainer
-                question={question}
-                socket={socket}
-                room={room}
-                user={user}
-                gameStarted={gameStarted}
-              />
-            ) : null}
-          </div>
-        </Grid>
-      </Container>
-      <DisplayUsers usersInGame={usersInGame} room={room} />
-    </div>
+            </Grid>
+          </Container>
+          <DisplayUsers usersInGame={usersInGame} room={room} />
+        </div>
+      </Fade>
+    </ThemeProvider>
   )
 }
 
