@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Alert from "@material-ui/lab/Alert"
 import { ThemeProvider } from "@material-ui/styles"
+import { makeStyles } from "@material-ui/styles"
 import Fade from "@material-ui/core/Fade"
 
 import Header from "./components/Header"
@@ -19,6 +20,15 @@ import WaitingSvg from "./svgs/meditation.svg"
 import StartSvg from "./svgs/Focus on positive activities.svg"
 
 import "./App.css"
+
+// const useStyles = makeStyles({
+//   initRender: {
+//     minHeight: "100vh",
+//   },
+//   loggedIn: {
+//     minHeight: "70vh",
+//   },
+// })
 
 function App({ socket }) {
   const [user, setUser] = useState("")
@@ -75,12 +85,13 @@ function App({ socket }) {
     })
   }, [socket])
 
+  // const classes = useStyles()
+
   return (
     <ThemeProvider theme={CustomTheme}>
       <Fade in={true} timeout={1000}>
         <div className="content">
           <Header user={user} />
-
           <Container>
             <Grid>
               {error ? (
@@ -153,8 +164,8 @@ function App({ socket }) {
                 ) : null}
               </div>
             </Grid>
+            <DisplayUsers usersInGame={usersInGame} room={room} />
           </Container>
-          <DisplayUsers usersInGame={usersInGame} room={room} />
         </div>
       </Fade>
     </ThemeProvider>

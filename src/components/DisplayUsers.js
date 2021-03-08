@@ -4,7 +4,8 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import PersonIcon from "@material-ui/icons/Person"
 import ListItemText from "@material-ui/core/ListItemText"
-import Container from "@material-ui/core/Container"
+import Grid from "@material-ui/core/Grid"
+
 import Fade from "@material-ui/core/Fade"
 
 const DisplayUsers = ({ usersInGame, room }) => {
@@ -13,28 +14,30 @@ const DisplayUsers = ({ usersInGame, room }) => {
       <Fade in={true} timeout={1000}>
         <div className="all-users">
           {usersInGame.length ? (
-            <div>
-              <h3>
-                {usersInGame.length} users in {room}. Round:{" "}
-                {usersInGame[0].round}
-              </h3>
-              <List>
-                {usersInGame.length
-                  ? usersInGame.map((user, i) => {
-                      return (
-                        <ListItem key={i}>
-                          <ListItemIcon style={{ color: "#fff" }}>
-                            <PersonIcon />
-                          </ListItemIcon>
-                          <ListItemText>
-                            {user.username} {user.score > 0 ? user.score : null}
-                          </ListItemText>
-                        </ListItem>
-                      )
-                    })
-                  : null}
-              </List>
-            </div>
+            <Grid container justify="center" alignItems="flex-start">
+              <Grid item sm={6} xs={10} className="list-of-users">
+                <List>
+                  {usersInGame.length
+                    ? usersInGame.map((user, i) => {
+                        return (
+                          <ListItem key={i}>
+                            <ListItemIcon>
+                              <PersonIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={
+                                user.score > 0
+                                  ? `${user.username} ${user.score}`
+                                  : user.username
+                              }
+                            />
+                          </ListItem>
+                        )
+                      })
+                    : null}
+                </List>
+              </Grid>
+            </Grid>
           ) : null}
         </div>
       </Fade>
@@ -43,3 +46,7 @@ const DisplayUsers = ({ usersInGame, room }) => {
 }
 
 export default DisplayUsers
+
+// <Grid container justify="center">
+
+// </Grid>

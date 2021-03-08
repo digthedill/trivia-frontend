@@ -15,7 +15,7 @@ const Header = ({ user }) => {
           <object
             type="image/svg+xml"
             data={SocialDistancedCats}
-            style={{ width: "120px" }}
+            style={{ width: "90px" }}
           >
             svg
           </object>
@@ -25,7 +25,7 @@ const Header = ({ user }) => {
         </Grid>
 
         <Grid item xs>
-          <p>{user ? `welcome ${user}` : null}</p>
+          <p>{user ? `hello ${user}` : null}</p>
         </Grid>
       </Grid>
     </AppBar>

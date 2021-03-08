@@ -6,7 +6,7 @@ import Radio from "@material-ui/core/Radio"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Box from "@material-ui/core/Box"
 import Grid from "@material-ui/core/Grid"
-// import Fade from "@material-ui/core/Fade"
+import Fade from "@material-ui/core/Fade"
 
 const GameContainer = (props) => {
   const [answer, setAnswer] = useState("")
@@ -88,66 +88,77 @@ const GameContainer = (props) => {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Box boxShadow={3} className="game-container" style={renderStyles}>
-        <Grid container alignItems="center">
-          <Grid item xs>
-            {parseInt(question.index) <= 9 ? (
-              <h4>{question.category}</h4>
-            ) : null}
+      <Fade in={true} timeout={1000}>
+        <Box
+          boxShadow={3}
+          className="game-container"
+          style={renderStyles}
+          maxHeight="420px"
+          maxWidth="500px"
+        >
+          <Grid container alignItems="center">
+            <Grid item xs>
+              {parseInt(question.index) <= 9 ? (
+                <h4>{question.category}</h4>
+              ) : null}
+            </Grid>
+            <Grid item>
+              <p>{timer}</p>
+            </Grid>
           </Grid>
-          <Grid item>
-            <p>{timer}</p>
-          </Grid>
-        </Grid>
-        <FormControl component="fieldset">
-          <FormLabel component="legend" className="question-text">
-            <div
+          <FormControl component="fieldset">
+            <FormLabel component="legend" className="question-text">
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                <span className="question-number">
+                  {parseInt(question.index) <= 9
+                    ? `${question.index + 1}`
+                    : null}
+                </span>
+                <p className="question-text">
+                  {decodeHTMLEntities(question.question)}
+                </p>
+              </div>
+            </FormLabel>
+            <RadioGroup
+              aria-label="answer"
+              name="answer"
+              value={answer}
+              onChange={handleAnswer}
+            >
+              {typeof question === "object" && question.category !== ""
+                ? question.multipleChoice.map((choice, i) => {
+                    return (
+                      <FormControlLabel
+                        value={choice}
+                        control={<Radio />}
+                        label={decodeHTMLEntities(choice)}
+                        key={i}
+                        disabled={showingAnswer}
+                        color="secondary"
+                      />
+                    )
+                  })
+                : null}
+            </RadioGroup>
+          </FormControl>
+          {showingAnswer ? (
+            <h2
               style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "0.5rem",
+                color: "#F57F17",
+                textAlign: "center",
               }}
             >
-              <span className="question-number">
-                {parseInt(question.index) <= 9 ? `${question.index + 1}` : null}
-              </span>
-              <p className="question-text">
-                {decodeHTMLEntities(question.question)}
-              </p>
-            </div>
-          </FormLabel>
-          <RadioGroup
-            aria-label="answer"
-            name="answer"
-            value={answer}
-            onChange={handleAnswer}
-          >
-            {typeof question === "object" && question.category !== ""
-              ? question.multipleChoice.map((choice, i) => {
-                  return (
-                    <FormControlLabel
-                      value={choice}
-                      control={<Radio />}
-                      label={decodeHTMLEntities(choice)}
-                      key={i}
-                      disabled={showingAnswer}
-                    />
-                  )
-                })
-              : null}
-          </RadioGroup>
-        </FormControl>
-        {showingAnswer ? (
-          <h2
-            style={{
-              color: "#009688",
-              textAlign: "center",
-            }}
-          >
-            {showRoomAnswer}
-          </h2>
-        ) : null}
-      </Box>
+              {showRoomAnswer}
+            </h2>
+          ) : null}
+        </Box>
+      </Fade>
     </div>
   )
 }

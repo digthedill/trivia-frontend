@@ -1,10 +1,12 @@
 .content {
   text-align: center;
   background: linear-gradient(135deg, #fff9c5, #9994dd);
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100vh;
+  /* display: flex;
+  flex-direction: column; */
+  position: relative;
+  min-height: 100vh;
 }
+
 .question-text {
   color: black !important;
   line-height: 1.1 !important;
@@ -21,10 +23,9 @@
   padding: 1rem;
 }
 .game-container {
-  margin: 1.5rem 0 8rem 0 !important;
+  margin: 5rem 0 5rem 0 !important;
   padding: 2rem;
-  height: 380px;
-  width: 550px;
+
   text-align: left;
   background: #ede7f6;
 }
@@ -75,12 +76,19 @@
 }
 
 .display-users-container {
+  flex-shrink: 0;
+  position: sticky;
   display: flex;
   justify-content: center;
-  background: #47277e;
-  color: #fff;
+  padding-bottom: 1.5rem;
   width: 100%;
 }
+.list-of-users {
+  /* background: #673ab7;
+  color: #ede7f6; */
+  border-radius: 2%;
+}
+
 .all-users {
-  width: 50%;
+  width: 100%;
 }

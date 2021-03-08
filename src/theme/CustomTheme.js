@@ -11,6 +11,13 @@ const CustomTheme = createMuiTheme({
       main: yellow[900],
     },
   },
+  // overrides: {
+  //   MuiFormControlLabel: {
+  //     label: {
+  //       color: yellow[900],
+  //     },
+  //   },
+  // },
 })
 
 export default CustomTheme
