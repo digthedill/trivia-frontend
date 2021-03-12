@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Alert from "@material-ui/lab/Alert"
 import { ThemeProvider } from "@material-ui/styles"
-import { makeStyles } from "@material-ui/styles"
 import Fade from "@material-ui/core/Fade"
 
 import Header from "./components/Header"
@@ -20,15 +19,6 @@ import WaitingSvg from "./svgs/meditation.svg"
 import StartSvg from "./svgs/Focus on positive activities.svg"
 
 import "./App.css"
-
-// const useStyles = makeStyles({
-//   initRender: {
-//     minHeight: "100vh",
-//   },
-//   loggedIn: {
-//     minHeight: "70vh",
-//   },
-// })
 
 function App({ socket }) {
   const [user, setUser] = useState("")

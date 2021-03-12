@@ -5,7 +5,7 @@ import App from "./App"
 import reportWebVitals from "./reportWebVitals"
 import openSocket from "socket.io-client"
 
-const ENDPOINT = "http://127.0.0.1:4412"
+const ENDPOINT = "https://dkelley-trivia-server.herokuapp.com/"
 const socket = openSocket(ENDPOINT, { transports: ["websocket"] })
 
 ReactDOM.render(
