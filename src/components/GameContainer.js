@@ -93,8 +93,8 @@ const GameContainer = (props) => {
           boxShadow={3}
           className="game-container"
           style={renderStyles}
-          maxHeight="420px"
-          maxWidth="500px"
+          height="420px"
+          width="500px"
         >
           <Grid container alignItems="center">
             <Grid item xs>
