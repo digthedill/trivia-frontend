@@ -62,9 +62,15 @@
 }
 
 .user-select-container {
-  margin-top: 7rem !important;
+  margin-top: 14rem !important;
   text-align: center;
   /* height: 100%; */
+}
+
+@media only screen and (max-width: 400px) {
+  .user-select-container {
+    margin-top: 8rem !important;
+  }
 }
 
 .center-container {
