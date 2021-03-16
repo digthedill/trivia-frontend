@@ -3,7 +3,7 @@ import { AppBar } from "@material-ui/core"
 import Grid from "@material-ui/core/Grid"
 import SocialDistancedCats from "../svgs/Social Distancing-01.svg"
 
-const Header = ({ user }) => {
+const Header = ({ user, room }) => {
   return (
     <AppBar
       position="static"
@@ -25,7 +25,10 @@ const Header = ({ user }) => {
         </Grid>
 
         <Grid item xs>
-          <p>{user ? `hello ${user}` : null}</p>
+          <p>
+            <strong>{user ? `welcome ${user}` : null}</strong>
+          </p>
+          <p>{room ? room : null} </p>
         </Grid>
       </Grid>
     </AppBar>

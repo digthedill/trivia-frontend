@@ -8,36 +8,39 @@ import Grid from "@material-ui/core/Grid"
 
 import Fade from "@material-ui/core/Fade"
 
-const DisplayUsers = ({ usersInGame, room }) => {
+const DisplayUsers = ({ usersInGame }) => {
   return (
     <div className="display-users-container">
       <Fade in={true} timeout={1000}>
         <div className="all-users">
           {usersInGame.length ? (
-            <Grid container justify="center" alignItems="flex-start">
-              <Grid item sm={6} xs={10} className="list-of-users">
-                <List>
-                  {usersInGame.length
-                    ? usersInGame.map((user, i) => {
-                        return (
-                          <ListItem key={i}>
-                            <ListItemIcon>
-                              <PersonIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={
-                                user.score > 0
-                                  ? `${user.username} ${user.score}`
-                                  : user.username
-                              }
-                            />
-                          </ListItem>
-                        )
-                      })
-                    : null}
-                </List>
+            <>
+              <h3>Round: {usersInGame[0].round}</h3>
+              <Grid container justify="center">
+                <Grid item sm={6} xs={10} className="list-of-users">
+                  <List>
+                    {usersInGame.length
+                      ? usersInGame.map((user, i) => {
+                          return (
+                            <ListItem key={i}>
+                              <ListItemIcon>
+                                <PersonIcon />
+                              </ListItemIcon>
+                              <ListItemText
+                                primary={
+                                  user.score > 0
+                                    ? `${user.username} ${user.score}`
+                                    : user.username
+                                }
+                              />
+                            </ListItem>
+                          )
+                        })
+                      : null}
+                  </List>
+                </Grid>
               </Grid>
-            </Grid>
+            </>
           ) : null}
         </div>
       </Fade>
@@ -46,7 +49,3 @@ const DisplayUsers = ({ usersInGame, room }) => {
 }
 
 export default DisplayUsers
-
-// <Grid container justify="center">
-
-// </Grid>

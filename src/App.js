@@ -36,13 +36,13 @@ function App({ socket }) {
   const [endOfGame, setEndOfGame] = useState(false)
 
   const handleStart = () => {
-    // reset scores
     setGameStarted(true)
     setEndOfGame(false)
     socket.emit("start")
   }
 
   useEffect(() => {
+    // global emits to server socket.io
     socket.on("error", () => {
       setUser("")
       setRoom("")
@@ -81,7 +81,7 @@ function App({ socket }) {
     <ThemeProvider theme={CustomTheme}>
       <Fade in={true} timeout={1000}>
         <div className="content">
-          <Header user={user} />
+          <Header user={user} room={room} />
           <Container>
             <Grid>
               {error ? (

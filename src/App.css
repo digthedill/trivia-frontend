@@ -67,7 +67,7 @@
   /* height: 100%; */
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 550px) {
   .user-select-container {
     margin-top: 8rem !important;
   }
